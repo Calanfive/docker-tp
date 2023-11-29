@@ -1,20 +1,21 @@
-import express from "express";
-import 'dotenv/config';
-import cors from "cors";
+import "dotenv/config"
+import express from 'express'
+import cors from 'cors'
+import bodyParser from 'body-parser'
 
-const app = express();
-app.use(cors());
+const app = express()
+app.use(cors())
+app.use(bodyParser.json())
+const port = process.env.PORT || 3000
 
-const port = process.env.PORT ? parseInt(process.env.PORT as string) : 3030
+app.get('/hello/:name', (req, res) => {
+  res.send('Hello petit ' + req.params.name)
+})
 
-app.get('/random-between/:min/:max', (req, res) => {
-    const min = parseInt(req.params.min)
-    const max = parseInt(req.params.max)
-    const random = Math.floor(Math.random() * (max - min + 1)) + min
-    console.log('number' + random);
-    res.send(random.toString())
+app.get('/server/time', (req, res) => {
+  res.send({ time: Date.now() })
 })
 
 app.listen(port, () => {
-    console.log('serveur running on port : ' + port);
+  console.log(`Example app listening on port ${port}`)
 })
